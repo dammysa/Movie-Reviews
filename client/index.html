@@ -1,13 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="style.css"></script>
+    <script type="module" src="/src/main.js" defer></script>
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <section id="TableSummary" class="TableSummary">
+      <table id="TableMovies">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Review</th>
+            <th>More</th>
+          </tr>
+        </thead>
+        <tbody id="TableMoviesBody"></tbody>
+      </table>
+      <form id="movieForm">
+        <input name="movie_name" placeholder="Movie Name" required />
+        <input name="review" placeholder="Enter your review" required />
+        <button type="submit">Submit</button>
+      </form>
+      <div id="infoBox"></div>
+    </section>
+    <div class="overlay hidden"></div>
   </body>
 </html>

@@ -1,24 +1,62 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+// const tblSummary = document.getElementById("TableSummary");
+import "./style.css";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+async function fchMovies() {
+  const res = await fetch("http://localhost:4242/movies");
+  const movies = await res.json();
+  return movies;
+}
+console.log(fchMovies());
 
-setupCounter(document.querySelector('#counter'))
+async function dispMovies() {
+  const movies = await fchMovies();
+  const tBody = document.getElementById("TableMoviesBody");
+  const infBox = document.getElementById("infoBox");
+
+  tBody.innerHTML = ""; // remove all existing data
+  movies.forEach((singleMovie) => {
+    const row = document.createElement("tr"); // do I need to put this in the global scope as I will reuse this for the submit
+    row.innerHTML = `
+      <td>${singleMovie.name}</td>
+      <td>${singleMovie.review}</td>
+      <td><button class="MoreInfoButton">More Info</button></td>
+    `;
+    tBody.appendChild(row);
+
+    // I wanted to add a reveal modal hence the close button and some class names, I was looking at https://get.foundation/sites/docs-v5/components/reveal.html and got intimidated but the amount there. Currently the more goes at the bottom of the page, I did have it as an alert but I do not like alerts.
+    const btn = row.querySelector(".MoreInfoButton");
+    btn.addEventListener("click", () => {
+      infBox.innerHTML = `
+      <section class="modal hidden">
+        <div class= "info-content>
+          <button class= "close-btn">x</button>
+          Release Date: ${singleMovie.release_date} 
+          Genre: ${singleMovie.genre}
+        </div>
+      </section> 
+        `;
+    });
+  });
+}
+
+dispMovies();
+
+const form = document.getElementById("movieForm");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const formData = new FormData(form);
+  const movieData = {
+    name: formData.get("movie_name"),
+    review: formData.get("review"),
+  };
+
+  // console.log(movieData);
+  const res = await fetch(`http://localhost:4242/movies`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(movieData),
+  });
+});
