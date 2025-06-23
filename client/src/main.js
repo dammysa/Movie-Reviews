@@ -2,7 +2,7 @@
 import "./style.css";
 
 async function fchMovies() {
-  const res = await fetch("http://localhost:4242/movies");
+  const res = await fetch(`${BASE_URL}`);
   const movies = await res.json();
   return movies;
 }
@@ -51,8 +51,9 @@ form.addEventListener("submit", async (event) => {
     review: formData.get("review"),
   };
 
+  const BASE_URL = "https://movie-reviews-server-8k0j.onrender.com";
   // console.log(movieData);
-  const res = await fetch(`http://localhost:4242/movies`, {
+  const res = await fetch(`${BASE_URL}/movies`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
