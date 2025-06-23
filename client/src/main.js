@@ -1,5 +1,6 @@
 // const tblSummary = document.getElementById("TableSummary");
 import "./style.css";
+const BASE_URL = "https://movie-reviews-server-8k0j.onrender.com";
 
 async function fchMovies() {
   const res = await fetch(`${BASE_URL}`);
@@ -51,7 +52,6 @@ form.addEventListener("submit", async (event) => {
     review: formData.get("review"),
   };
 
-  const BASE_URL = "https://movie-reviews-server-8k0j.onrender.com";
   // console.log(movieData);
   const res = await fetch(`${BASE_URL}/movies`, {
     method: "POST",
