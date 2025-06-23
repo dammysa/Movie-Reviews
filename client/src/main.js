@@ -3,7 +3,7 @@ import "./style.css";
 const BASE_URL = "https://movie-reviews-server-8k0j.onrender.com";
 
 async function fchMovies() {
-  const res = await fetch(`${BASE_URL}`);
+  const res = await fetch(`${BASE_URL}/movies`);
   const movies = await res.json();
   return movies;
 }
